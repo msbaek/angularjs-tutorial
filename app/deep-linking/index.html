@@ -1,0 +1,22 @@
+<!doctype html>
+<html ng-app="deepLinking">
+<head>
+    <script src="../lib/angular/angular.min.js"></script>
+    <script src="../lib/angular/angular-route.min.js"></script>
+    <script src="../lib/angular/angular-sanitize.min.js"></script>
+    <script src="../js/deep-linking.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/deep-linking.css">
+</head>
+<body>
+<div ng-controller="AppCntl">
+    <h2 id="your-app-chrome">Your App Chrome</h2>
+    [ <a href="#/welcome">Welcome</a> | <a href="#/settings">Settings</a> ]
+    <hr/>
+      <span class="partial-info">
+        Partial: {{$route.current.template}}
+      </span>
+    <div ng-view></div>
+    <small>Your app footer </small>
+</div>
+</body>
+</html>
