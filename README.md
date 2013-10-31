@@ -1,151 +1,159 @@
-# angular-seed — the seed for AngularJS apps
+# Angularjs Cookbook
 
-This project is an application skeleton for a typical [AngularJS](http://angularjs.org/) web app.
-You can use it to quickly bootstrap your angular webapp projects and dev environment for these
-projects.
+[원문](http://docs.angularjs.org/cookbook)
 
-The seed contains AngularJS libraries, test libraries and a bunch of scripts all preconfigured for
-instant web development gratification. Just clone the repo (or download the zip/tarball), start up
-our (or yours) webserver and you are ready to develop and test your application.
+# Angularjs
 
-The seed app doesn't do much, just shows how to wire two controllers and views together. You can
-check it out by opening app/index.html in your browser (might not work file `file://` scheme in
-certain browsers, see note below).
+angularjs를 한마디로 설명한다면 3D
 
-_Note: While angular is client-side-only technology and it's possible to create angular webapps that
-don't require a backend server at all, we recommend hosting the project files using a local
-webserver during development to avoid issues with security restrictions (sandbox) in browsers. The
-sandbox implementation varies between browsers, but quite often prevents things like cookies, xhr,
-etc to function properly when an html page is opened via `file://` scheme instead of `http://`._
+- Directive
+- Dependency Injection
+- Data Binding(양방향)
 
+[angular-seed](https://github.com/angular/angular-seed)를 clone하여 시작할 수 있다.
 
-## How to use angular-seed
+intelliJ 플러그인 [AngularJS](https://github.com/johnlindquist/angularjs-plugin)를 설치하면 문장 완성 기능을 사용할 수 있음.
 
-Clone the angular-seed repository and start hacking...
+# Hello World
 
+`hello-world.html`
 
-### Running the app during development
+![image](images/hello-world-index.html.png)
 
-You can pick one of these options:
+- ng-app, ng-controller, ng-model directive
+- birectional data binding: `{{ xxx }}`
 
-* serve this repository with your webserver
-* install node.js and run `scripts/web-server.js`
+`script.js`
 
-Then navigate your browser to `http://localhost:<port>/app/index.html` to see the app running in
-your browser.
+![image](images/hello-world-script.js.png)
 
+- `$scope`: 메모리 저장소. view와 controller 사이의 데이터 교환에 사용
 
-### Running the app in production
+`hello-world-scenario.js`
 
-This really depends on how complex is your app and the overall infrastructure of your system, but
-the general rule is that all you need in production are all the files under the `app/` directory.
-Everything else should be omitted.
+![image](images/hello-world-scenario.js.png)
 
-Angular apps are really just a bunch of static html, css and js files that just need to be hosted
-somewhere, where they can be accessed by browsers.
+- [jasmine](http://pivotal.github.com/jasmine/)과 [Karma](http://karma-runner.github.io/) 사용
 
-If your Angular app is talking to the backend server via xhr or other means, you need to figure
-out what is the best way to host the static files to comply with the same origin policy if
-applicable. Usually this is done by hosting the files by the backend server or through
-reverse-proxying the backend server(s) and a webserver(s).
+	`./scripts/web-server.js`를 실행하면 node.js로 작성된 웹서버가 실행됨.
 
+	`./scripts/test.sh`를 실행하면 unit test가 수행됨. 소스의 변경이 있으면 자동으로 모든 unit test가 재실행
 
-### Running unit tests
+	`./scripts/e2e-test.sh`를 실행하면 [end to end test](http://docs.angularjs.org/guide/dev_guide.e2e-testing)가 실행된다. 이 테스트도 소스가 변경될 때마다 자동으로 재실행된다.
+- [원문](http://docs.angularjs.org/guide/dev_guide.e2e-testing). 그런데 e2e test는 [Protractor](https://- github.com/angular/protractor)로 변경될 것이라 함. 원문 페이지에서 모든 api에 대한 설명을 얻을 수 있다.
+- `browser().navigateTo(url)`: url을 테스트 프레임으로 로딩한다.
+- `expect(future).{matcher}`: 주어진 future가 matcher를 만족시키는지 검증한다. 모든 API 문장은 future 객체를 반환한다. Future 객체는 실행된 후에 할당되는 값을 갖는다. `Matcher`는 `angular.scenario.matcher`를 이용해서 정의된다. matcher는 expectation을 run하기 위해 future의 값을 이용한다.
+- `binding(name)`: 주어진 이름에 매칭되는 첫번째 바인딩 값을 반환한다.
+- `toEqual`: value and Object comparison
+- `input(name).enter(value)`: name을 갖는 ng-model의 텍스트 필드에 값을 입력한다.
 
-We recommend using [jasmine](http://pivotal.github.com/jasmine/) and
-[Karma](http://karma-runner.github.io) for your unit tests/specs, but you are free
-to use whatever works for you.
+이 예제는 input 필드에 텍스트를 입력하면 양방향 바인딩(`{{ xx }}`)을 이용해서 화면서 입력된 값을 바로 보여준다.
 
-Requires [node.js](http://nodejs.org/), Karma (`sudo npm install -g karma`) and a local
-or remote browser.
+`web-server.js`를 를 실행한 후 [http://localhost:8000/app/hello-world.html](http://localhost:8000/app/hello-world.html)를 통해 확인해 볼 수 있다. e2e 테스트 결과는 [http://localhost:8000/test/e2e/runner.html](http://localhost:8000/test/e2e/runner.html)에서 확인해 볼 수 있다.
 
-* start `scripts/test.sh` (on windows: `scripts\test.bat`)
-  * a browser will start and connect to the Karma server (Chrome is default browser, others can be captured by loading the same url as the one in Chrome or by changing the `config/karma.conf.js` file)
-* to run or re-run tests just change any of your source or test javascript files
+# Basic Form
+`basic-form.html`
 
+![image](images/basic-form.html.png)
 
-### End to end testing
+- ng-click, ng-repeat, ng-pattern
+- `{{user | json}}`: json 형식으로 출력. 이쁘게
 
-Angular ships with a baked-in end-to-end test runner that understands angular, your app and allows
-you to write your tests with jasmine-like BDD syntax.
+`basic-form.js`
 
-Requires a webserver, node.js + `./scripts/web-server.js` or your backend server that hosts the angular static files.
+![image](images/basic-form.js.png)
 
-Check out the
-[end-to-end runner's documentation](http://docs.angularjs.org/guide/dev_guide.e2e-testing) for more
-info.
+- state, zip 필드에 대해서 validation rule을 정규식으로 표현
+- addContact, removeContact 메소드 구현
 
-* create your end-to-end tests in `test/e2e/scenarios.js`
-* serve your project directory with your http/backend server or node.js + `scripts/web-server.js`
-* to run do one of:
-  * open `http://localhost:port/test/e2e/runner.html` in your browser
-  * run the tests from console with [Karma](http://karma-runner.github.io) via
-    `scripts/e2e-test.sh` or `script/e2e-test.bat`
+`basic-form-scenario.js`
 
-### Continuous Integration
+![image](images/basic-form-scenario.js.png)
 
-CloudBees have provided a CI/deployment setup:
+- `using(selector, label)`: Scopes the next DSL element selection.
+- `element(selector, label).click()`: Clicks on the element matching the given jQuery selector. The label is used for test output.
 
-<a href="https://grandcentral.cloudbees.com/?CB_clickstart=https://raw.github.com/CloudBees-community/angular-js-clickstart/master/clickstart.json"><img src="https://d3ko533tu1ozfq.cloudfront.net/clickstart/deployInstantly.png"/></a>
+예제를 [실행](http://localhost:8000/app/basic-form.html)하고 필드에 값을 변경하면 양방향 데이터 바인딩에 의해 JSON 형식으로 표현되는 user 객체의 값이 즉각적으로 변경되는 것을 확인할 수 있다.
 
-If you run this, you will get a cloned version of this repo to start working on in a private git repo, 
-along with a CI service (in Jenkins) hosted that will run unit and end to end tests in both Firefox and Chrome.
+# Advanced Form
 
-### Receiving updates from upstream
+`advanced-form.html`
 
-When we upgrade angular-seed's repo with newer angular or testing library code, you can just
-fetch the changes and merge them into your project with git.
+![image](images/advanced-form.html.png)
 
+- ng-disabled
 
-## Directory Layout
+`advanced-form.js`
 
-    app/                --> all of the files to be used in production
-      css/              --> css files
-        app.css         --> default stylesheet
-      img/              --> image files
-      index.html        --> app layout file (the main html template file of the app)
-      index-async.html  --> just like index.html, but loads js files asynchronously
-      js/               --> javascript files
-        app.js          --> application
-        controllers.js  --> application controllers
-        directives.js   --> application directives
-        filters.js      --> custom angular filters
-        services.js     --> custom angular services
-      lib/              --> angular and 3rd party javascript libraries
-        angular/
-          angular.js        --> the latest angular js
-          angular.min.js    --> the latest minified angular js
-          angular-*.js      --> angular add-on modules
-          version.txt       --> version number
-      partials/             --> angular view partials (partial html templates)
-        partial1.html
-        partial2.html
+![image](images/advanced-form.js.png)
 
-    config/karma.conf.js        --> config file for running unit tests with Karma
-    config/karma-e2e.conf.js    --> config file for running e2e tests with Karma
+- `cancel`, `save`는 변경 내역이 있을때만 활성화됨
+- $invalid를 이용해서 valid한 경우와 변경 사항이 있는 경우만 `save` 버튼을 활성화
+- `cancel` 버튼은 폼의 내용을 초기값으로 전환
+- 디버그 뷰
 
-    scripts/            --> handy shell/js/ruby scripts
-      e2e-test.sh       --> runs end-to-end tests with Karma (*nix)
-      e2e-test.bat      --> runs end-to-end tests with Karma (windows)
-      test.bat          --> autotests unit tests with Karma (windows)
-      test.sh           --> autotests unit tests with Karma (*nix)
-      web-server.js     --> simple development webserver based on node.js
+`advanced-form-scenario.js`
 
-    test/               --> test source files and libraries
-      e2e/              -->
-        runner.html     --> end-to-end test runner (open in your browser to run)
-        scenarios.js    --> end-to-end specs
-      lib/
-        angular/                --> angular testing libraries
-          angular-mocks.js      --> mocks that replace certain angular services in tests
-          angular-scenario.js   --> angular's scenario (end-to-end) test runner library
-          version.txt           --> version file
-      unit/                     --> unit level specs/tests
-        controllersSpec.js      --> specs for controllers
-        directivessSpec.js      --> specs for directives
-        filtersSpec.js          --> specs for filters
-        servicesSpec.js         --> specs for services
+![image](images/advanced-form-scenario.js.png)
 
-## Contact
+# MVC
 
-For more information on AngularJS please check out http://angularjs.org/
+`mvc.html`
+
+![image](images/mvc.html.png)
+
+- ng-style
+
+`mvc.js`
+
+![image](images/mvc.js.png)
+
+`mvc-scenario.js`
+
+![image](images/mvc-scenario.js.png)
+
+- controller는 JavaScript로 정의되고, rendering logic에 대한 reference를 갖는다.
+- controller는 Angular에 의해 인스턴스화되고 view에 주입된다.
+- controller는 view와 무관하게 인스턴스화 될 수 있다. 이로 인해 테스트가 가능해 진다.
+- controller의 모든 property는 view에서 사용될 수 있다.
+- model을 변경하면 view가 변경된다.
+- view는 controller의 함수들을 호출할 수 있다.
+
+# Multi-page App and Deep Linking
+
+`deep-linking/index.html`
+
+![image](images/deep-linking-index.html.png)
+
+- url은 반드시 `#/`으로 시작해야 함.
+- ng-view
+
+`deep-linking/deep-linking.js`
+
+- ngRoute, $routeProvider, $inject
+
+![image](images/deep-linking.js.png)
+
+`deep-linking/welcome.html`
+
+![image](images/deep-linking-welcome.html.png)
+
+`deep-linking/settings.html`
+
+![image](images/deep-linking-settings.html.png)
+
+`deep-linking-scenario.js`
+
+![image](images/deep-linking-scenario.js.png)
+
+- Routes는 AppCntl 클래스에 정의된다. controller의 초기화는 적합한 URL route를 갖는 $route 서비스의 초기화를 일으킨다.
+- $route 서비스는 URL을 주시하고 URL이 변경되면 정의된 controller를 인스턴스화한다.
+- ngView 위젯은 URL이 변경되면 view를 로드한다. 또 view scope을 새롭게 인스턴스화된 controller에 설정한다.
+- URL 변경은 controller와 view를 변경하기에 충분하다. 사용자에 의해서 URL이 변경되든지 프로그램에 의해서 변경되든지 차이가 없다.
+
+# 결론
+
+- front를 꺼리던 사람이 흥미를 갖게한다.
+- e2e test는 web app의 integration(scenario) 테스트로도 활용 가능할 듯
+- 구글이 준비 중인 polymer([https://github.com/Polymer/polymer](https://github.com/Polymer/polymer), [http://www.polymer-project.org/](http://www.polymer-project.org/), [http://www.html5rocks.com/ko/tutorials/webcomponents/yeoman/](http://www.html5rocks.com/ko/tutorials/webcomponents/yeoman/))도 관심을 가져야 할 듯
+- e2e test api는 [원문](http://docs.angularjs.org/guide/dev_guide.e2e-testing)을 참고.

@@ -34,5 +34,16 @@ function SettingsCntl($scope, $location) {
         $location.path('/welcome');
     };
 
+    $scope.add = function () {
+        $scope.form.contacts.push({type: 'email', value: ''})
+    }
+
+    $scope.remove = function (contact) {
+        for (var i = 0, ii = $scope.form.contacts.length; i < ii; i++) {
+            if (contact === $scope.form.contacts[i])
+                $scope.form.contacts.splice(i, 1);
+        }
+    }
+
     $scope.cancel();
 }

@@ -1,7 +1,6 @@
 Hello {{person.name}},
-<div>
-    Your contact information:
-    <div ng-repeat="contact in person.contacts">{{contact.type}}:
-        <span ng-bind-html="contact.url|linky"></span>
-    </div>
+Your contact information:
+<div ng-repeat="contact in person.contacts">{{contact.type}}:
+    <span ng-bind-html="contact.url|linky"></span>
 </div>
+<button ng-click="greet()">greet</button>

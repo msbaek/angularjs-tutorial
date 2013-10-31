@@ -46,21 +46,10 @@ function MvcController($scope, $location) {
             row(0) || row(1) || row(2) ||
                 col(0) || col(1) || col(2) ||
                 diagonal(-1) || diagonal(1);
-        function row(row) {
-            return same(b[row][0], b[row][1], b[row][2]);
-        }
-
-        function col(col) {
-            return same(b[0][col], b[1][col], b[2][col]);
-        }
-
-        function diagonal(i) {
-            return same(b[0][1 - i], b[1][1], b[2][1 + i]);
-        }
-
-        function same(a, b, c) {
-            return (a == b && b == c) ? a : '';
-        };
+        function row(row) { return same(b[row][0], b[row][1], b[row][2]); }
+        function col(col) { return same(b[0][col], b[1][col], b[2][col]); }
+        function diagonal(i) { return same(b[0][1 - i], b[1][1], b[2][1 + i]); }
+        function same(a, b, c) { return (a == b && b == c) ? a : ''; };
     }
 
     function readUrl(value) {

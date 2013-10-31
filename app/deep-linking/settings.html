@@ -7,11 +7,11 @@
         <option>email</option>
         <option>phone</option>
     </select>
-    <input type="text" ng-model="cotact.url">
-    [ <a href="" ng-click="form.contacts.$remove(contact)">X</a> ]
+    <input type="text" ng-model="contact.url">
+    [ <a href="" ng-click="remove(contact)">X</a> ]
 </div>
 <div>
-    [ <a href="" ng-click="form.contacts.$add()">add</a> ]
+    [ <a href="" ng-click="add()">add</a> ]
 </div>
 
 <button ng-click="cancel()">Cancel</button>
