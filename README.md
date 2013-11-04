@@ -151,6 +151,79 @@ intelliJ 플러그인 [AngularJS](https://github.com/johnlindquist/angularjs-plu
 - ngView 위젯은 URL이 변경되면 view를 로드한다. 또 view scope을 새롭게 인스턴스화된 controller에 설정한다.
 - URL 변경은 controller와 view를 변경하기에 충분하다. 사용자에 의해서 URL이 변경되든지 프로그램에 의해서 변경되든지 차이가 없다.
 
+# Real API 서버 사용
+[Angularjs Tutorial에서 발췌](http://docs.angularjs.org/tutorial)
+
+[easymock](https://github.com/cyberagent/node-easymock)을 이용해서 json 파일이 있다고 가정하고 개발을 진행해 보자.
+
+```msbaek@msbaek ~/git/tutorials/easymock/phones_get.json```
+
+```
+[
+    {
+        "age": 0,
+        "id": "motorola-xoom-with-wi-fi",
+        "imageUrl": "img/phones/motorola-xoom-with-wi-fi.0.jpg",
+        "name": "Motorola XOOM\u2122 with Wi-Fi",
+        "snippet": "The Next, Next Generation\r\n\r\nExperience the future with Motorola XOOM with Wi-Fi, the world's first tablet powered by Android 3.0 (Honeycomb)."
+    },
+    {
+        "age": 1,
+        "id": "motorola-xoom",
+        "imageUrl": "img/phones/motorola-xoom.0.jpg",
+        "name": "MOTOROLA XOOM\u2122",
+        "snippet": "The Next, Next Generation\n\nExperience the future with MOTOROLA XOOM, the world's first tablet powered by Android 3.0 (Honeycomb)."
+    },
+    {
+        "age": 2,
+        "carrier": "AT&amp;T",
+        "id": "motorola-atrix-4g",
+        "imageUrl": "img/phones/motorola-atrix-4g.0.jpg",
+        "name": "MOTOROLA ATRIX\u2122 4G",
+        "snippet": "MOTOROLA ATRIX 4G the world's most powerful smartphone."
+    },
+...
+```
+
+controller에서 `$http` 서비스를 이용해서 데이터를 가져오는 부분은 아래와 같다.
+
+```
+var phoneApp = angular.module('phoneApp', []);
+
+phoneApp.controller('PhoneListController', ['$scope', function ($scope) {
+  $http.get('phones/phones.json').success(function(data) {phones'}).success(function(data) {
+    $scope.phones = data;
+  });
+}]);
+```
+
+이 경우 phones 디렉토리의 phones.json 파일을 읽어서 반환한다.
+
+진짜 GET 호출을 통해 데이터를 반환하기 위해 아래와 같이 수정한다.
+
+```
+var phoneApp = angular.module('phoneApp', []);
+
+phoneApp.controller('PhoneListController', ['$scope', '$http', function ($scope, $http) {
+    $http({method: 'GET', url: 'http://localhost:3000/phones'}).success(function (data) {
+        $scope.phones = data;
+    });
+}]);
+```
+물론 3000번 포트에는 easymock이 떠 있고, easymock이 떠 있는 디렉토리에 `phones_get.json` 파일이 존재한다.
+
+실행을 해 보면
+
+`not allowed by Access-Control-Allow-Origin`
+
+라는 오류가 발생한다. [cross domain ajax 문제](http://stackoverflow.com/questions/10143093/origin-is-not-allowed-by-access-control-allow-origin)가 발생한다.
+
+phones_get.json 파일의 맨위에 
+
+`< @header Access-Control-Allow-Origin: *`
+
+위와 같은 헤더를 추가하면 이 문제는 해결된다.
+
 # 결론
 
 - front를 꺼리던 사람이 흥미를 갖게한다.
