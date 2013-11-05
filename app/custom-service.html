@@ -7,7 +7,10 @@
 <body>
 <div ng-controller="CustomServiceController">
     result: {{result}} <br/>
-    greeting: {{greeting}}
+    greeting: {{greeting}} <br/>
+    filtered greeting: {{greeting | reverse}} <br/>
+    filtered greeting(with :true): {{greeting | reverse:true}} <br/>
+    filtered greeting(with :true:'zz'): {{greeting | reverse:true:'zz'}} <br/>
 </div>
 </body>
 </html>
