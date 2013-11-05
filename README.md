@@ -1,6 +1,9 @@
-# Angularjs Cookbook
+# Angularjs Tutorial
 
-[원문](http://docs.angularjs.org/cookbook)
+[angularjs 공식 튜토리얼](http://docs.angularjs.org/tutorial)
+
+[angularjs cookbook](http://docs.angularjs.org/cookbook)
+
 
 # Angularjs
 
@@ -223,6 +226,43 @@ phones_get.json 파일의 맨위에
 `< @header Access-Control-Allow-Origin: *`
 
 위와 같은 헤더를 추가하면 이 문제는 해결된다.
+
+
+
+# Custom Directive
+![image](images/custom-directive.html.png)
+
+![image](images/custom-directive.js.png)
+
+- restrict
+	- how do we restrict the element's usage? If you're using a project that needs legacy IE support, you'll probably need attribute/class declarations.
+	- Restricting as 'A' means you restrict it as an Attribute. 'E' for Element, 'C' for Class and 'M' for Comment.
+	- These have a default as 'EA'. Yes, you can restrict to multiple use cases.
+- replace
+	- This replaces the markup in the DOM that defines the directive, used in the example, you'll notice how initial DOM is replaced with the Directive's template.
+- transclude
+	- Put simply, using transclude allows for existing DOM content to be copied into the directive. You'll see the words
+	- 'Click me' have 'moved' into the Directive once rendered.
+- template
+	- A template (as above) allows you to declare markup to be injected.
+	- It's a good idea to use this for tiny pieces of HTML only.
+	- Injected templates are all compiled through Angular, which means you can declare the handlebar template tags in them too for binding.
+- templateUrl
+	- Similar to a template, but kept in it's own file or ```<script>``` tag
+	- You can do this to specify a template URL, which you'll want to use for manageable chunks of HTML that require being kept in their own file, just specify the path and filename, preferably kept inside their own templates directory:
+
+
+# Custom Services
+
+![image](images/custom-service.js.png)
+
+![image](images/custom-service.html.png)
+
+# Custom Filter
+
+![image](images/custom-filter.js.png)
+
+![image](images/custom-filter.html.png)
 
 # 결론
 
