@@ -6,8 +6,8 @@ customServiceApp
             return a * b;
         }
     })
-    .service('Str', function() {
-        this.greeting = function() {
+    .service('Str', function () {
+        this.greeting = function () {
             return 'Hi there';
         }
     });
@@ -20,25 +20,25 @@ customServiceApp.controller('CustomServiceController', ['$scope', 'Math', 'Str',
     $scope.greeting = Str.greeting();
 }]);
 
-customServiceApp.filter('reverse', function() {
-   return function(input, uppercase, postfix) {
-       var out = '';
-       for(var i = 0; i < input.length; i++) {
-           out = input.charAt(i) + out;
-       }
-       if(uppercase) {
-           out = out.toUpperCase();
-       }
-       if(postfix) {
-           return out + postfix;
-       }
-       return out;
-   }
+customServiceApp.filter('reverse', function () {
+    return function (input, uppercase, postfix) {
+        var out = '';
+        for (var i = 0; i < input.length; i++) {
+            out = input.charAt(i) + out;
+        }
+        if (uppercase) {
+            out = out.toUpperCase();
+        }
+        if (postfix) {
+            return out + postfix;
+        }
+        return out;
+    }
 });
 
-customServiceApp.controller('TwoWayBindingController', function($scope) {
-   $scope.myModel = '';
-    $scope.scope_function = function() {
+customServiceApp.controller('TwoWayBindingController', function ($scope) {
+    $scope.myModel = 'has data';
+    $scope.scope_function = function () {
         alert('this is scope function');
     }
 });

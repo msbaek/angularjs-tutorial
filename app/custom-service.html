@@ -20,7 +20,7 @@
     <button ng-click="scope_function()">call $scope function</button>
 </div>
 </body>
-<div>
+<div ng-controller="TwoWayBindingController">
     <p>Declarative DOM methods</p>
     <a href="" ng-click="toggle = !toggle">Toggle nav</a>
     <ul ng-show="toggle">
@@ -28,5 +28,7 @@
         <li>Link 2</li>
         <li>Link 3</li>
     </ul>
+    <p>expression</p>
+    <p>{{myModel.length > 0 && 'My data' || 'No data' }}</p>
 </div>
 </html>
