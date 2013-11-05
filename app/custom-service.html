@@ -12,5 +12,10 @@
     filtered greeting(with :true): {{greeting | reverse:true}} <br/>
     filtered greeting(with :true:'zz'): {{greeting | reverse:true:'zz'}} <br/>
 </div>
+<div ng-controller="TwoWayBindingController">
+    <p>2 Way Binding</p>
+    <input type="text" ng-model="myModel" placeholder="start typing...">
+    <p>My Model Data: {{myModel}}</p>
+</div>
 </body>
 </html>
