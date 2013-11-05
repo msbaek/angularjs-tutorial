@@ -38,4 +38,7 @@ customServiceApp.filter('reverse', function() {
 
 customServiceApp.controller('TwoWayBindingController', function($scope) {
    $scope.myModel = '';
+    $scope.scope_function = function() {
+        alert('this is scope function');
+    }
 });
