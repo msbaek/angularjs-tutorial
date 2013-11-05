@@ -15,8 +15,18 @@
 <div ng-controller="TwoWayBindingController">
     <p>2 Way Binding</p>
     <input type="text" ng-model="myModel" placeholder="start typing...">
+
     <p>My Model Data: {{myModel}}</p>
     <button ng-click="scope_function()">call $scope function</button>
 </div>
 </body>
+<div>
+    <p>Declarative DOM methods</p>
+    <a href="" ng-click="toggle = !toggle">Toggle nav</a>
+    <ul ng-show="toggle">
+        <li>Link 1</li>
+        <li>Link 2</li>
+        <li>Link 3</li>
+    </ul>
+</div>
 </html>
